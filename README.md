@@ -1,114 +1,177 @@
+# 🧠 DeepKlarity — AI-Powered Wikipedia Quiz Generator
 
-DeepKlarity is a full-stack web application that automatically generates interactive quizzes from **Wikipedia articles** using **AI**.  
-It allows users to paste any Wikipedia URL, auto-generate questions and answers, view previous quizzes, and review their scores — all in one platform.
-
----
-
-## 🚀 Features
-
-✅ **AI-Powered Quiz Generation**  
-- Fetches article content and sections using a smart Wikipedia scraper.  
-- Generates multiple-choice questions and answers automatically using AI.  
-
-✅ **Quiz History Tracking**  
-- Stores every generated quiz in a local SQLite database.  
-- View, delete, or revisit quizzes anytime.  
-
-✅ **Score Management**  
-- Allows users to take quizzes and record their scores.  
-- Displays score, total questions, and attempt timestamp in history details.  
-
-✅ **Beautiful & Responsive Frontend**  
-- React-based interface for quiz generation and review.  
-- Modal view for quiz details and question breakdown.
+**DeepKlarity** is a full-stack web application that automatically generates quiz questions from Wikipedia articles using Artificial Intelligence (AI).  
+It bridges the gap between knowledge and interactivity by transforming static Wikipedia content into dynamic, self-assessing quizzes.  
 
 ---
 
-## 🧩 Tech Stack
+## 🧾 Abstract
+
+In today’s digital era, online information sources like **Wikipedia** serve as massive repositories of knowledge. However, passive reading often leads to low retention.  
+DeepKlarity addresses this by introducing an **AI-powered learning companion** that automatically generates **multiple-choice quizzes** from Wikipedia content, enabling users to **test their understanding instantly**.
+
+The project leverages **FastAPI** for backend logic, **React** for an interactive UI, and **Google Gemini (AI Model)** to intelligently generate relevant questions, answers, and explanations.
+
+---
+
+## 🎯 Objectives
+
+- Automate quiz generation from **Wikipedia** URLs using AI.  
+- Allow users to **view, store, and retake quizzes** anytime.  
+- Provide **explanations** for each answer to enhance learning.  
+- Record and display **quiz scores and attempt timestamps**.  
+- Offer a clean, user-friendly **web interface** with real-time updates.  
+
+---
+
+## 🧩 Problem Statement
+
+Traditional learning platforms rely heavily on static reading material and manual question preparation.  
+Learners often lack immediate tools to assess how much they understood from an article.  
+Creating quizzes manually is time-consuming and subjective.
+
+---
+
+## 💡 Proposed Solution
+
+DeepKlarity automates the entire quiz creation process:
+1. Users provide a **Wikipedia article URL**.  
+2. The system scrapes the page content (summary, key entities, and sections).  
+3. An **AI model (Google Gemini)** processes this data to generate questions and answers.  
+4. The quiz is saved locally for review and analysis.  
+5. Users can view, delete, or reattempt quizzes, and their scores are recorded for future tracking.  
+
+---
+
+## ⚙️ System Architecture
+
+```
+
+User (React Frontend)
+↓
+Frontend API Request (Axios)
+↓
+FastAPI Backend (Quiz Routes)
+↓
+Scraper Module → Extracts Wikipedia content
+↓
+Quiz Generator → Uses Gemini AI to form Q&A
+↓
+SQLite Database → Stores quiz data, score, timestamp
+↓
+Frontend → Displays quiz, history, and score
+
+```
+
+---
+
+## 🧰 Technology Stack
 
 | Layer | Technology |
 |-------|-------------|
-| **Frontend** | React, Axios, HTML, CSS |
+| **Frontend** | React.js, Axios, HTML5, CSS3 |
 | **Backend** | FastAPI (Python) |
-| **Database** | SQLite (via SQLAlchemy ORM) |
-| **AI/Quiz Generation** | LangChain + Google Gemini / LLM APIs |
-| **Other Tools** | Pydantic, Uvicorn, Requests |
+| **Database** | SQLite (SQLAlchemy ORM) |
+| **AI/ML Integration** | Google Gemini / LangChain |
+| **Styling** | TailwindCSS (optionally plain CSS) |
+| **Server** | Uvicorn |
+| **Other Tools** | Pydantic, Requests, Python-dotenv |
 
 ---
 
-## 📁 Project Structure
+## 📁 Folder Structure
 
 ```
 
 DeepKlarity/
+│
 ├── backend/
+│   ├── .vscode/
+│   │   └── settings.json
 │   ├── app/
 │   │   ├── crud.py
 │   │   ├── database.py
 │   │   ├── main.py
 │   │   ├── models.py
+│   │   ├── schemas.py
 │   │   ├── routes/
 │   │   │   └── quiz.py
-│   │   ├── schemas.py
+│   │   ├── scripts/
+│   │   │   ├── debug_quiz_generator.py
+│   │   │   └── normalize_quiz_questions.py
 │   │   └── utils/
-│   │       ├── scraper.py
-│   │       └── quiz_generator.py
-│   ├── app.db
+│   │       ├── prompt_templates.py
+│   │       ├── quiz_generator.py
+│   │       └── scraper.py
 │   ├── requirements.txt
+│   ├── .env
 │   └── venv/
+│
 ├── frontend/
+│   ├── public/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── Tab1Generate.jsx
-│   │   │   ├── Tab2History.jsx
+│   │   │   ├── Modal.jsx
 │   │   │   ├── QuizDisplay.jsx
-│   │   │   └── Modal.jsx
+│   │   │   ├── Tab1-Generate.jsx
+│   │   │   └── Tab2-History.jsx
 │   │   ├── styles/
-│   │   └── App.js
+│   │   │   ├── App.css
+│   │   │   ├── Modal.css
+│   │   │   ├── QuizDisplay.css
+│   │   │   ├── Tab1.css
+│   │   │   └── Tab2.css
+│   │   ├── App.js
+│   │   ├── index.js
+│   │   ├── logo.svg
+│   │   └── setupTests.js
 │   ├── package.json
-│   └── README.md
+│   └── package-lock.json
+│
 └── README.md
 
 ````
 
 ---
 
-## ⚙️ Installation & Setup
+## ⚙️ Installation & Setup Guide
 
-### 1️⃣ Clone the Repository
-
-```bash
-git clone https://github.com/yourusername/DeepKlarity.git
-cd DeepKlarity
-````
+### 🧱 Prerequisites
+- Python 3.10+
+- Node.js 18+
+- npm or yarn
+- Internet connection (for AI API calls)
 
 ---
 
-### 2️⃣ Backend Setup (FastAPI)
-
+### 🧩 Backend Setup (FastAPI)
 ```bash
 cd backend
 python -m venv venv
-venv\Scripts\activate       # On Windows
-# source venv/bin/activate  # On Linux/Mac
+venv\Scripts\activate      # Windows
+# source venv/bin/activate # Linux/Mac
 
 pip install -r requirements.txt
+````
+
+Create a `.env` file:
+
+```
+GEMINI_API_KEY=your_gemini_api_key_here
+DATABASE_URL=sqlite:///./app.db
 ```
 
-#### Run the Backend Server:
+Run the backend:
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-Server will start at **[http://127.0.0.1:8000](http://127.0.0.1:8000)**
-
-Visit the **Swagger Docs** at:
-👉 [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+Visit: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
 ---
 
-### 3️⃣ Frontend Setup (React)
+### 💻 Frontend Setup (React)
 
 ```bash
 cd frontend
@@ -116,104 +179,148 @@ npm install
 npm start
 ```
 
-Frontend will start at **[http://localhost:3000](http://localhost:3000)**
-
-Make sure backend (port 8000) is running before using the app.
+Frontend URL → [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🧠 How It Works
+## 🔗 API Endpoints Overview
 
-1. Enter a **Wikipedia URL** in the “Generate Quiz” tab.
-2. The backend scrapes and summarizes the article.
-3. The AI model generates a set of quiz questions, answers, and explanations.
-4. The quiz is stored in the local SQLite database.
-5. You can view, delete, or retake it from the **Quiz History** tab.
-6. When you submit your answers, the score and timestamp are saved and visible in details.
-
----
-
-## 📊 API Endpoints (Summary)
-
-| Method   | Endpoint                 | Description                              |
-| -------- | ------------------------ | ---------------------------------------- |
-| `POST`   | `/api/quiz/generate`     | Generate a new quiz from a Wikipedia URL |
-| `GET`    | `/api/quiz/history`      | Get list of all quizzes                  |
-| `GET`    | `/api/quiz/history/{id}` | Get quiz details by ID                   |
-| `DELETE` | `/api/quiz/history/{id}` | Delete a quiz                            |
-| `POST`   | `/api/quiz/submit`       | Record submitted score & attempt time    |
+| Method   | Endpoint                 | Description                           |
+| -------- | ------------------------ | ------------------------------------- |
+| `POST`   | `/api/quiz/generate`     | Generates a quiz from a Wikipedia URL |
+| `GET`    | `/api/quiz/history`      | Lists all quizzes                     |
+| `GET`    | `/api/quiz/history/{id}` | Retrieves quiz details                |
+| `POST`   | `/api/quiz/submit`       | Records user’s quiz score             |
+| `DELETE` | `/api/quiz/history/{id}` | Deletes a quiz from database          |
 
 ---
 
-## 🧾 Example `.env` (optional)
+## 🧠 AI Quiz Generation Workflow
 
-If you use Google Gemini or OpenAI API for quiz generation:
+1. **Scraper Module (`scraper.py`)**
 
+   * Extracts Wikipedia title, summary, and key sections.
+   * Cleans and structures text for AI input.
+
+2. **AI Module (`quiz_generator.py`)**
+
+   * Sends extracted content to Gemini model.
+   * Generates a structured JSON with:
+
+     * Question
+     * Options
+     * Correct Answer
+     * Difficulty
+     * Explanation
+
+3. **Database Layer**
+
+   * Stores all generated quizzes.
+   * Records quiz creation and score submission timestamps.
+
+4. **Frontend Rendering**
+
+   * Displays quiz history and details.
+   * Uses modals to show full quiz content.
+
+---
+
+## 📊 Database Schema (SQLite)
+
+| Column            | Type     | Description                    |
+| ----------------- | -------- | ------------------------------ |
+| `id`              | Integer  | Primary key                    |
+| `url`             | String   | Wikipedia URL                  |
+| `title`           | String   | Article title                  |
+| `summary`         | Text     | Summary content                |
+| `quiz_questions`  | JSON     | Generated quiz set             |
+| `related_topics`  | JSON     | Related Wikipedia topics       |
+| `created_at`      | DateTime | When quiz was generated        |
+| `submitted_score` | Integer  | Score submitted by user        |
+| `total_questions` | Integer  | Total number of quiz questions |
+| `attempted_at`    | DateTime | When quiz was attempted        |
+
+---
+
+## 🖥️ Frontend Overview
+
+### Key Components
+
+| Component           | Description                                          |
+| ------------------- | ---------------------------------------------------- |
+| `Tab1-Generate.jsx` | Handles Wikipedia URL input and quiz generation      |
+| `Tab2-History.jsx`  | Displays list of all stored quizzes                  |
+| `QuizDisplay.jsx`   | Renders detailed quiz view and explanations          |
+| `Modal.jsx`         | Reusable popup component for displaying quiz details |
+
+---
+
+## 🧪 Example Quiz Entry
+
+```json
+{
+  "id": 9,
+  "title": "Agriculture",
+  "summary": "Agriculture is the practice of cultivating the soil...",
+  "quiz_questions": [
+    {
+      "question": "What was a key factor in the rise of sedentary civilization?",
+      "options": ["Farming", "Mining", "Trade", "War"],
+      "answer": "Farming",
+      "difficulty": "easy",
+      "explanation": "Farming produced food surpluses that enabled city life."
+    }
+  ],
+  "submitted_score": 4,
+  "total_questions": 5,
+  "attempted_at": "2025-11-09T20:30:00"
+}
 ```
-GEMINI_API_KEY=your_api_key_here
-OPENAI_API_KEY=your_openai_key_here
-```
-
-Then load it in `quiz_generator.py`.
 
 ---
 
-## 🧰 Dependencies (Backend)
+## 🔮 Future Enhancements
 
-Main dependencies in `requirements.txt`:
-
-```
-fastapi
-uvicorn
-sqlalchemy
-pydantic
-requests
-langchain
-google-generativeai
-```
+* 🔐 User authentication & personalized dashboard
+* 🌐 Multi-language quiz generation
+* 📊 Quiz analytics & progress tracking
+* 🧩 Adaptive difficulty levels
+* 📥 Export quizzes as PDF or share links
 
 ---
 
-## 📸 Screenshots (Recommended)
+## 🧑‍💻 Developer Information
 
-*(Add screenshots here once available)*
-
-| Generate Quiz                    | Quiz History                   |
-| -------------------------------- | ------------------------------ |
-| ![generate](assets/generate.png) | ![history](assets/history.png) |
-
----
-
-## 🧑‍💻 Developers
-
-**Project Name:** DeepKlarity
-**Developed by:** Gokul P and Team
+**Project Title:** DeepKlarity – AI-Powered Wikipedia Quiz Generator
+**Developer:** Gokul P
 **Institution:** SNS College of Technology
-**Domain:** AI + Full Stack Development
+**Department:** Computer Science and Engineering
+**Semester:** VI (Full Stack Development Project)
+**Tools Used:** Visual Studio Code, FastAPI, React, SQLite
+**Domain:** Artificial Intelligence + Full Stack
 
 ---
 
-## ⭐ Future Enhancements
+## 🏁 Conclusion
 
-* Add user login / profiles
-* Enable category-based quiz filtering
-* Add export to PDF / share results
-* Integrate with GPT-5 or Gemini-Pro for better question quality
-
----
-
-## 🏁 License
-
-MIT License © 2025 — Gokul P
-Feel free to fork, modify, and improve 🎯
+DeepKlarity successfully demonstrates how AI can transform traditional learning into an interactive, assessment-driven experience.
+By combining **AI comprehension**, **FastAPI efficiency**, and **React interactivity**, the project delivers a seamless and intelligent quiz-generation system that can scale into educational platforms.
 
 ---
 
 ## ❤️ Acknowledgements
 
-* [FastAPI](https://fastapi.tiangolo.com) — for the blazing-fast backend
-* [React.js](https://react.dev) — for interactive UI
-* [Wikipedia API](https://www.wikipedia.org/) — for article data
-* [LangChain](https://www.langchain.com) & [Gemini AI](https://ai.google.dev) — for question generation
+* [FastAPI](https://fastapi.tiangolo.com)
+* [React.js](https://react.dev)
+* [LangChain](https://www.langchain.com)
+* [Google Gemini AI](https://ai.google.dev)
+* [Wikipedia](https://www.wikipedia.org)
+
+---
+
+## 🧾 License
+
+MIT License © 2025 — Gokul P
+Feel free to fork, modify, and share with attribution.
 
 
