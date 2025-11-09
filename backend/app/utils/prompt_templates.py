@@ -1,100 +1,65 @@
+# app/utils/prompt_templates.py
 from langchain_core.prompts import PromptTemplate
-from pydantic import BaseModel, Field
-from typing import List
 
-# Define output schema for quiz questions (for reference / documentation)
-class QuizQuestion(BaseModel):
-    question: str = Field(description="The quiz question")
-    options: List[str] = Field(description="Four multiple choice options A, B, C, D")
-    answer: str = Field(description="The correct answer (one of the options)")
-    difficulty: str = Field(description="Difficulty level: easy, medium, or hard")
-    explanation: str = Field(description="Brief explanation of why the answer is correct")
-    section: str = Field(description="Which section of the article this question relates to")
-
-class RelatedTopicsResponse(BaseModel):
-    related_topics: List[str] = Field(description="List of 3-5 related Wikipedia topics")
-
-
-# STRICT quiz generation template — forces concrete options and valid JSON array output
 QUIZ_GENERATION_TEMPLATE = """
-You are an expert quiz generator. Based only on the Article Title, Summary and Sections below,
-generate exactly {num_questions} multiple-choice quiz questions.
-
-REQUIREMENTS (must follow exactly):
-- Return ONLY a valid JSON array (no markdown, no commentary).
-- Each question object MUST have these fields:
-  "question": string,
-  "options": [4 distinct strings],
-  "answer": string,                      # must be equal to one of the 4 options
-  "difficulty": "easy" | "medium" | "hard",
-  "explanation": string,
-  "section": string
-
-- Options must be concrete, factual answer choices (not "Option A" or "Topic A" or placeholders).
-- For numeric facts, include numbers in options when relevant (e.g., years, counts).
-- Distractors should be plausible and grounded in the article content.
-- Cover different sections; distribute difficulty across questions.
-
-Example (one question object only; format example):
-{
-  "question": "In which year was X first introduced?",
-  "options": ["1910", "1920", "1930", "1940"],
-  "answer": "1920",
-  "difficulty": "easy",
-  "explanation": "X was introduced in 1920 as mentioned in the History section.",
-  "section": "History"
-}
+You are an expert quiz writer. Given the Wikipedia article content below, generate exactly {num_questions}
+multiple-choice questions (4 options each: A, B, C, D). Each question must be factual, grounded in the content,
+and include: question, options (list of 4 full-text options), the correct answer text (not just letter), difficulty
+(easy|medium|hard), short explanation, and the section name the question relates to.
 
 Article Title: {title}
 Article Summary: {summary}
-Article Sections: {sections}
+Article Sections (first 5): {sections}
 Article Content (truncated): {content}
 
-Return a JSON array of question objects exactly matching the schema above.
+Return ONLY valid JSON: a top-level array of question objects, each like:
+[
+  {{
+    "question": "Full question text",
+    "options": ["Option text A", "Option text B", "Option text C", "Option text D"],
+    "answer": "Option text B",
+    "difficulty": "medium",
+    "explanation": "Short explanation (1-2 sentences)",
+    "section": "Introduction"
+  }}
+]
+
+Important:
+- DO NOT return placeholders such as "Option 1", "Fact A", "Topic A" or single letters as answers.
+- Options must be plausible distractors (all 4 must look like real choices).
+- Provide the full option text in the "answer" field (matching exactly one of the items in options).
+- Provide only JSON — no extra text, markdown, or commentary.
 """
 
-# Related topics template — returns a JSON object with "related_topics" array
 RELATED_TOPICS_TEMPLATE = """
-Based on the Wikipedia article titled "{title}" with the following content:
-Summary: {summary}
-Sections: {sections}
+Given the article title "{title}", summary: {summary}, and sections: {sections},
+return a JSON object with a single field "related_topics" containing a list of 3-5
+related Wikipedia topic titles (as strings). Return ONLY valid JSON.
 
-Suggest 3-5 related Wikipedia topics that readers interested in this article would also find useful.
-
-Return a JSON object with a single field "related_topics" whose value is an array of topic names, e.g.:
+Example:
 {{ "related_topics": ["Topic A", "Topic B", "Topic C"] }}
-
-Return ONLY valid JSON. No markdown, no code blocks, no extra text.
 """
 
 def get_quiz_generation_prompt(title: str, summary: str, sections: list, content: str, num_questions: int):
-    """
-    Create the final prompt string for quiz generation.
-    - sections: a list of section headings (we join the first few)
-    - content: truncated article text (we keep a safe length)
-    """
     prompt = PromptTemplate(
         input_variables=["title", "summary", "sections", "content", "num_questions"],
         template=QUIZ_GENERATION_TEMPLATE
     )
     return prompt.format(
         title=title,
-        summary=summary,
-        sections=", ".join(sections[:5]),
-        content=content[:2000],  # keep prompt length reasonable
-        num_questions=num_questions
+        summary=summary or "",
+        sections=", ".join(sections[:5]) if sections else "",
+        content=(content or "")[:3000],
+        num_questions=num_questions,
     )
 
 def get_related_topics_prompt(title: str, summary: str, sections: list):
-    """
-    Create the prompt string for generating related topics.
-    """
     prompt = PromptTemplate(
         input_variables=["title", "summary", "sections"],
         template=RELATED_TOPICS_TEMPLATE
     )
     return prompt.format(
         title=title,
-        summary=summary,
-        sections=", ".join(sections[:5])
+        summary=summary or "",
+        sections=", ".join(sections[:5]) if sections else "",
     )
