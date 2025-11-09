@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/QuizDisplay.css";
 
+/* eslint-disable no-useless-escape */
 
 const LETTERS = ["A", "B", "C", "D"];
 
