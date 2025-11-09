@@ -4,7 +4,7 @@ import Modal from './Modal';
 import QuizDisplay from './QuizDisplay';
 import '../styles/Tab2.css';
 
-const API_URL = 'http://localhost:8000/api/quiz';
+const API_URL = 'https://wikipediaquizgenerator.onrender.com/api/quiz';
 
 function Tab2History() {
   const [quizzes, setQuizzes] = useState([]);
