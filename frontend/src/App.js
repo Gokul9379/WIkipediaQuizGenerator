@@ -34,7 +34,7 @@ function App() {
       </main>
 
       <footer className="footer">
-        <p>© 2024 DeepKlarity Technologies. Powered by Google Gemini API.</p>
+        <p>© 2025 DeepKlarity Technologies. Powered by Google Gemini API.</p>
       </footer>
     </div>
   );

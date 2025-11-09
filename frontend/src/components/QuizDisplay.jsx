@@ -49,7 +49,6 @@ export default function QuizDisplay({ quizData }) {
     <div className="quiz-display-container">
       <div className="quiz-header">
         <h2 className="quiz-title">{quizData?.title}</h2>
-        <p className="quiz-summary">{quizData?.summary}</p>
       </div>
 
       <div className="quiz-questions">

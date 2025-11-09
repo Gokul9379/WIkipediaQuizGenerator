@@ -9,7 +9,6 @@ const API_URL = 'http://localhost:8000/api/quiz';
 function Tab2History() {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(false);
-  // STEP 6: Tab 2 - Quiz History
   const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState('');
@@ -81,7 +80,13 @@ function Tab2History() {
                     </a>
                   </td>
                   <td className="date">
-                    {new Date(quiz.created_at).toLocaleDateString()}
+                    {(() => {
+                      // Try a few common timestamp fields and guard against invalid dates
+                      const ts = quiz.created_at || quiz.generated_at || quiz.createdAt;
+                      if (!ts) return "N/A";
+                      const d = new Date(ts);
+                      return isNaN(d.getTime()) ? "N/A" : d.toLocaleString();
+                    })()}
                   </td>
                   <td className="questions">
                     {quiz.quiz_questions?.length || 0}
