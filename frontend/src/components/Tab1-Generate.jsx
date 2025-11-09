@@ -3,7 +3,7 @@ import axios from 'axios';
 import QuizDisplay from './QuizDisplay';
 import '../styles/Tab1.css';
 
-const API_URL = 'http://localhost:8000/api/quiz';
+const API_URL = 'https://wikipediaquizgenerator.onrender.com/api/quiz';
 
 function Tab1Generate() {
     const [url, setUrl] = useState('');
