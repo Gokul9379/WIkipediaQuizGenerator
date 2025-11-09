@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, Float, JSON 
 from sqlalchemy.sql import func
 from datetime import datetime
-from app.database import Base
+from database import Base
 
 
 class WikiArticle(Base):

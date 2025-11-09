@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import logging
-from app.database import Base, engine
-from app.routes import quiz
+from database import Base, engine
+from routes import quiz
 
 # Configure logging
 logging.basicConfig(

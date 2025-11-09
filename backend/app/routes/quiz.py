@@ -6,12 +6,12 @@ import logging
 from typing import List, Dict, Any
 import json
 
-from app.database import get_db
-from app.schemas import WikiArticleResponse, QuizGenerationResponse
-from app.models import WikiArticle
-from app.crud import QuizCRUD
-from app.utils.scraper import WikiScraper
-from app.utils.quiz_generator import QuizGenerator
+from database import get_db
+from schemas import WikiArticleResponse, QuizGenerationResponse
+from models import WikiArticle
+from crud import QuizCRUD
+from utils.scraper import WikiScraper
+from utils.quiz_generator import QuizGenerator
 
 router = APIRouter(prefix="/api/quiz", tags=["quiz"])
 logger = logging.getLogger(__name__)

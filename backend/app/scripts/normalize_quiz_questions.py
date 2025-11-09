@@ -1,8 +1,8 @@
 # scripts/normalize_quiz_questions.py
 import os, sys, json
 from sqlalchemy.orm import Session
-from app.database import SessionLocal
-from app.models import WikiArticle
+from database import SessionLocal
+from models import WikiArticle
 
 def normalize_quiz_questions():
     db: Session = SessionLocal()

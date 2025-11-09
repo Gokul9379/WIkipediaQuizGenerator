@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from app.models import WikiArticle
-from app.schemas import WikiArticleCreate
+from models import WikiArticle
+from schemas import WikiArticleCreate
 from typing import Optional, List
 
 class QuizCRUD:

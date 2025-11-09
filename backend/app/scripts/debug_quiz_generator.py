@@ -1,7 +1,7 @@
 # scripts/debug_quiz_generator.py
 import logging
-from app.utils.quiz_generator import QuizGenerator
-from app.utils.scraper import WikiScraper
+from utils.quiz_generator import QuizGenerator
+from utils.scraper import WikiScraper
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

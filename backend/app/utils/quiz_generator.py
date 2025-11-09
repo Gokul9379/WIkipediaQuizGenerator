@@ -10,7 +10,7 @@ from collections import Counter
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-from app.utils.prompt_templates import (
+from utils.prompt_templates import (
     get_quiz_generation_prompt,
     get_related_topics_prompt,
 )
