@@ -1,0 +1,98 @@
+.tab2-container {
+ max-width: 1200px;
+ margin: 0 auto;
+ }
+ .tab2-container h2 {
+ color: white;
+ margin-bottom: 1.5rem;
+ text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+ }
+ .quiz-table {
+ background: white;
+ border-radius: 12px;
+ overflow: hidden;
+ box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+ }
+ table {
+ width: 100%;
+ border-collapse: collapse;
+ }
+ th {
+ background: #667eea;
+ color: white;
+ padding: 1rem;
+ text-align: left;
+ font-weight: 600;
+}
+ td {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+ }
+ tbody tr:hover {
+  background: #f9f9f9;
+ }
+ .title {
+  font-weight: 600;
+  color: #333;
+ }
+ .url a {
+  color: #667eea;
+  text-decoration: none;
+ }
+ .url a:hover {
+  text-decoration: underline;
+ }
+ .date {
+  color: #666;
+  font-size: 0.9rem;
+ }
+ .questions {
+  text-align: center;
+  font-weight: 600;
+ }
+ .actions {
+  display: flex;
+  gap: 0.5rem;
+ }
+ .btn-details, .btn-delete {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s;
+ }
+ .btn-details {
+  background: #667eea;
+  color: white;
+ }
+ .btn-details:hover {
+background: #5568d3;
+ }
+ .btn-delete {
+ background: #ffebee;
+ color: #c33;
+ }
+ .btn-delete:hover {
+ background: #ffcdd2;
+ }
+ .empty-state {
+ background: white;
+ padding: 3rem;
+ border-radius: 12px;
+ text-align: center;
+ color: #666;
+ font-size: 1.1rem;
+ }
+ @media (max-width: 768px) {
+ table {
+ font-size: 0.9rem;
+ }
+ td, th {
+ padding: 0.75rem;
+ }
+ .actions {
+ flex-direction: column;
+ }
+ }
